@@ -41,9 +41,9 @@ public class MemberDAO {
             pstmt.setString(1, phone);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void deleteMember(int id) {
@@ -52,25 +52,25 @@ public class MemberDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void searchMember(int id) {
+    public void getMember(int id) {
         String sql = "SELECT * FROM Members WHERE id = ?";
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+             pstmt.setInt(1, id);
+             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id"));
                 System.out.println("Name: " + rs.getString("name"));
                 System.out.println("Email: " + rs.getString("email"));
                 System.out.println("Phone: " + rs.getString("phone"));
             }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -12,7 +12,7 @@ public class TransactionDAO {
     public TransactionDAO() {
         dbHelper = new DatabaseHelper();
     }
-    // Methods to issue and return books, track due dates
+
     public void issueBook(int memberId, int bookId, Date issueDate, Date dueDate) {
         String sql = """
                 INSERT INTO Transactions(member_id, book_id, issue_date, due_date)
