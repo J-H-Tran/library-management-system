@@ -1,6 +1,6 @@
 package com.library.model;
 
-public class Member {
+public class Members {
     private int id;
     private String name;
     private String email;
@@ -42,8 +42,8 @@ public class Member {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Member member = (Member) o;
-        return id == member.id && java.util.Objects.equals(name, member.name) && java.util.Objects.equals(email, member.email) && java.util.Objects.equals(phone, member.phone);
+        Members members = (Members) o;
+        return id == members.id && java.util.Objects.equals(name, members.name) && java.util.Objects.equals(email, members.email) && java.util.Objects.equals(phone, members.phone);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.library.model;
 
-import java.util.Date;
+import java.sql.Date;
 
-public class Transaction {
+public class Transactions {
     private int id;
     private int bookId;
     private int memberId;
@@ -62,7 +62,7 @@ public class Transaction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
+        Transactions that = (Transactions) o;
         return id == that.id && bookId == that.bookId && memberId == that.memberId && java.util.Objects.equals(issueDate, that.issueDate) && java.util.Objects.equals(dueDate, that.dueDate) && java.util.Objects.equals(returnDate, that.returnDate);
     }
 

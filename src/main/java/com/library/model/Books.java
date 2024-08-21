@@ -1,6 +1,6 @@
 package com.library.model;
 
-public class Book {
+public class Books {
     private int id;
     private String title;
     private String author;
@@ -51,8 +51,8 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id && availableCopies == book.availableCopies && java.util.Objects.equals(title, book.title) && java.util.Objects.equals(author, book.author) && java.util.Objects.equals(isbn, book.isbn);
+        Books books = (Books) o;
+        return id == books.id && availableCopies == books.availableCopies && java.util.Objects.equals(title, books.title) && java.util.Objects.equals(author, books.author) && java.util.Objects.equals(isbn, books.isbn);
     }
 
     @Override
