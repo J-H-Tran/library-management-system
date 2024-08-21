@@ -1,19 +1,20 @@
 package com.library.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseHelper {
     private static final String URL = "jdbc:sqlite:src/main/resources/library.db";
 
     public Connection connect() {
-        Connection conn = null;
         try {
-            conn = java.sql.DriverManager.getConnection(URL);
+            return DriverManager.getConnection(URL);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Connection to SQLite has failed.");
+            e.printStackTrace();
+            return null;
         }
-        return conn;
     }
 
     public void createNewDatabase() {
@@ -29,13 +30,14 @@ public class DatabaseHelper {
     public void createTables() {
         String createBooksTable = """
                 CREATE TABLE IF NOT EXISTS Books (
-                    id INTEGER PRIMARY KEY autoincrement,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT NOT NULL,
                     author TEXT NOT NULL,
                     isbn TEXT NOT NULL,
                     available_copies INTEGER NOT NULL
                 );
                 """;
+
         String createMembersTable = """
                 CREATE TABLE IF NOT EXISTS Members (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,18 +46,20 @@ public class DatabaseHelper {
                     phone TEXT NOT NULL
                 );
                 """;
+
         String createTransactionsTable = """
                 CREATE TABLE IF NOT EXISTS Transactions (
-                    id integer primary key autoincrement,
-                    book_id integer not null,
-                    member_id integer not null,
-                    issue_date text not null,
-                    due_date text not null,
-                    return_date text,
-                    foreign key (book_id) references Books(id),
-                    foreign key (member_id) references Members(id)
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    book_id INTEGER NOT NULL,
+                    member_id INTEGER NOT NULL,
+                    issue_date TEXT NOT NULL,
+                    due_date TEXT NOT NULL,
+                    return_date TEXT,
+                    FOREIGN KEY (book_id) REFERENCES Books(id),
+                    FOREIGN KEY (member_id) REFERENCES Members(id)
                 );
                 """;
+
         try (var conn = this.connect();
              var stmt = conn.createStatement()) {
             stmt.execute(createBooksTable);
