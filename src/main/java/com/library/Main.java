@@ -1,36 +1,163 @@
 package com.library;
 
+import com.library.model.Members;
 import com.library.service.LibraryManager;
+import java.awt.print.Book;
+import java.lang.reflect.Member;
 import java.sql.Date;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        LibraryManager libraryManager = new LibraryManager();
+	private static final LibraryManager libraryManager = new LibraryManager();
+	private static final Scanner scanner = new Scanner(System.in);
 
-        libraryManager.addBook("The Alchemist", "Paulo Coelho", "9780062315007", 5);
-        libraryManager.addBook("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 3);
-        libraryManager.addBook("To Kill a Mockingbird", "Harper Lee", "9780060935467", 2);
-        libraryManager.addBook("1984", "George Orwell", "9780451524935", 4);
-        libraryManager.addBook("Pride and Prejudice", "Jane Austen", "9780679783268", 3);
+	public static void main(String[] args) {
+		libraryManager.addBook(
+				"Test",
+				"Author Test",
+				"9780062315007test",
+				99
+		);
+		libraryManager.getBook(1);
+		System.out.println("test book 1.\n");
 
-        libraryManager.addMember("Alice", "alice@test.com", "1234567890");
-        libraryManager.addMember("Bob", "bob@test.com", "2345678901");
-        libraryManager.addMember("Charlie", "charlie@test.com", "3456789012");
+        libraryManager.addBook(
+			"The Alchemist",
+			"Paulo Coelho",
+			"9780062315007",
+			5
+		);
+        libraryManager.addBook(
+			"The Great Gatsby",
+			"F. Scott Fitzgerald",
+			"9780743273565",
+			3
+		);
+        libraryManager.addBook(
+			"To Kill a Mockingbird",
+			"Harper Lee",
+			"9780060935467",
+			2
+		);
+        libraryManager.addBook(
+			"1984",
+			"George Orwell",
+			"9780451524935",
+			4
+		);
+        libraryManager.addBook(
+			"Pride and Prejudice",
+			"Jane Austen",
+			"9780679783268",
+			3
+		);
+		System.out.println("Books added.\n");
 
-        // Issue books
-        libraryManager.issueBook(1, 1, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000L)); // Alice checks out "The Alchemist"
-        libraryManager.updateBook(1, "The Alchemist", "Paulo Coelho", "9780062315007", 4); // Update available copies of "The Alchemist"
+        libraryManager.addMember(
+			"Alice",
+			"alice@test.com",
+			"1234567890"
+		);
+        libraryManager.addMember(
+			"Bob",
+			"bob@test.com",
+			"2345678901"
+		);
+        libraryManager.addMember(
+			"Charlie",
+			"charlie@test.com",
+			"3456789012"
+		);
+		System.out.println("Members added.\n");
+		System.out.println("Initial state of the library created.");
 
-        libraryManager.issueBook(2, 2, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000L)); // Bob checks out "The Great Gatsby"
-        libraryManager.updateBook(2, "The Great Gatsby", "F. Scott Fitzgerald", "9780743273565", 2); // Update available copies of "The Great Gatsby"
+		while (true) {
+			printMenu();
+			int choice = Integer.parseInt(scanner.nextLine());
+			switch (choice) {
+				case 1 -> addBook();
+				case 2 -> addMember();
+				case 3 -> issueBook();
+				case 4 -> returnBook();
+				case 5 -> searchBooks();
+				case 6 -> searchMembers();
+				case 7 -> System.exit(0);
+				default -> System.out.println("Invalid choice. Please try again.");
+			}
+		}
+	}
 
-        libraryManager.issueBook(3, 3, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000L)); // Charlie checks out "To Kill a Mockingbird" (overdue)
-        libraryManager.updateBook(3, "To Kill a Mockingbird", "Harper Lee", "9780060935467", 1); // Update available copies of "To Kill a Mockingbird"
+	private static void printMenu() {
+		System.out.println("\nLibrary Management System");
+		System.out.println("1. Add Book");
+		System.out.println("2. Add Member");
+		System.out.println("3. Issue Book");
+		System.out.println("4. Return Book");
+		System.out.println("5. Search Books");
+		System.out.println("6. Search Members");
+		System.out.println("7. Exit");
+		System.out.print("Enter your choice: ");
+	}
 
+	private static void addBook() {
+		System.out.print("Enter book title: ");
+		String title = scanner.nextLine();
+		System.out.print("Enter book author: ");
+		String author = scanner.nextLine();
+		System.out.print("Enter book ISBN: ");
+		String isbn = scanner.nextLine();
+		System.out.print("Enter available copies: ");
+		int availableCopies = Integer.parseInt(scanner.nextLine());
 
-        // Return book
-        libraryManager.returnBook(1, new Date(System.currentTimeMillis())); // Alice returns "The Alchemist"
+		libraryManager.addBook(title, author, isbn, availableCopies);
+		System.out.println("Book added successfully.");
+	}
 
-        libraryManager.trackDueDate();
-    }
+	private static void addMember() {
+		System.out.print("Enter member name: ");
+		String name = scanner.nextLine();
+		System.out.print("Enter member email: ");
+		String email = scanner.nextLine();
+		System.out.print("Enter member phone: ");
+		String phone = scanner.nextLine();
+
+		libraryManager.addMember(name, email, phone);
+		System.out.println("Member added successfully.");
+	}
+
+	private static void issueBook() {
+		System.out.print("Enter book ID: ");
+		int bookId = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter member ID: ");
+		int memberId = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter issue date (yyyy-mm-dd): ");
+		Date issueDate = Date.valueOf(scanner.nextLine());
+		System.out.print("Enter due date (yyyy-mm-dd): ");
+		Date dueDate = Date.valueOf(scanner.nextLine());
+
+		libraryManager.issueBook(memberId, bookId, issueDate, dueDate);
+		System.out.println("Book issued successfully.");
+	}
+
+	private static void returnBook() {
+		System.out.print("Enter transaction ID: ");
+		int transactionId = Integer.parseInt(scanner.nextLine());
+		System.out.print("Enter return date (yyyy-mm-dd): ");
+		Date returnDate = Date.valueOf(scanner.nextLine());
+
+		libraryManager.returnBook(transactionId, returnDate);
+		System.out.println("Book returned successfully.");
+	}
+
+	private static void searchBooks() {
+		System.out.print("Enter book id to search: ");
+		int query = scanner.nextInt();
+		libraryManager.getBook(query);
+	}
+
+	private static void searchMembers() {
+		System.out.print("Enter member id to search: ");
+		int query = scanner.nextInt();
+		libraryManager.getMember(query);
+	}
 }
