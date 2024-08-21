@@ -1,9 +1,6 @@
 package com.library;
 
-import com.library.model.Members;
 import com.library.service.LibraryManager;
-import java.awt.print.Book;
-import java.lang.reflect.Member;
 import java.sql.Date;
 import java.util.Scanner;
 
@@ -79,8 +76,8 @@ public class Main {
 				case 2 -> addMember();
 				case 3 -> issueBook();
 				case 4 -> returnBook();
-				case 5 -> searchBooks();
-				case 6 -> searchMembers();
+				case 5 -> searchBook();
+				case 6 -> searchMember();
 				case 7 -> System.exit(0);
 				default -> System.out.println("Invalid choice. Please try again.");
 			}
@@ -149,15 +146,15 @@ public class Main {
 		System.out.println("Book returned successfully.");
 	}
 
-	private static void searchBooks() {
+	private static void searchBook() {
 		System.out.print("Enter book id to search: ");
-		int query = scanner.nextInt();
+		int query = Integer.parseInt(scanner.nextLine());;
 		libraryManager.getBook(query);
 	}
 
-	private static void searchMembers() {
+	private static void searchMember() {
 		System.out.print("Enter member id to search: ");
-		int query = scanner.nextInt();
+		int query = Integer.parseInt(scanner.nextLine());;
 		libraryManager.getMember(query);
 	}
 }
