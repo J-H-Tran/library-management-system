@@ -5,23 +5,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MemberDAO {
+public class MembersDAO {
     private final DatabaseHelper dbHelper;
 
-    public MemberDAO() {
+    public MembersDAO() {
         dbHelper = new DatabaseHelper();
     }
 
     public void addMember(String name, String email, String phone) {
         String sql = """
-                INSERT INTO Members(name, email, phone)
-                VALUES(?, ?, ?)
+                INSERT INTO Members (name, email, phone)
+                VALUES (?, ?, ?)
                 """;
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
-            pstmt.setString(1, email);
-            pstmt.setString(1, phone);
+            pstmt.setString(2, email);
+            pstmt.setString(3, phone);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -37,9 +37,9 @@ public class MemberDAO {
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
-            pstmt.setString(1, email);
-            pstmt.setString(1, phone);
-            pstmt.setInt(1, id);
+            pstmt.setString(2, email);
+            pstmt.setString(3, phone);
+            pstmt.setInt(4, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

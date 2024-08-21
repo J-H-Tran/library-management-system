@@ -5,24 +5,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BookDAO {
+public class BooksDAO {
     private final DatabaseHelper dbHelper;
 
-    public BookDAO() {
+    public BooksDAO() {
         dbHelper = new DatabaseHelper();
     }
 
     public void addBook(String title, String author, String isbn, int available_copies) {
         String sql = """
-                INSERT INTO Books(title, author, isbn, available_copies)
-                VALUES(?, ?, ?, ?)
+                INSERT INTO Books (title, author, isbn, available_copies)
+                VALUES (?, ?, ?, ?)
                 """;
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, title);
-            pstmt.setString(1, author);
-            pstmt.setString(1, isbn);
-            pstmt.setInt(1, available_copies);
+            pstmt.setString(2, author);
+            pstmt.setString(3, isbn);
+            pstmt.setInt(4, available_copies);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -56,10 +56,10 @@ public class BookDAO {
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, title);
-            pstmt.setString(1, author);
-            pstmt.setString(1, isbn);
-            pstmt.setInt(1, available_copies);
-            pstmt.setInt(1, id);
+            pstmt.setString(2, author);
+            pstmt.setString(3, isbn);
+            pstmt.setInt(4, available_copies);
+            pstmt.setInt(5, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

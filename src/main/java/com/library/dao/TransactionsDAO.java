@@ -6,17 +6,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TransactionDAO {
+public class TransactionsDAO {
     private final DatabaseHelper dbHelper;
 
-    public TransactionDAO() {
+    public TransactionsDAO() {
         dbHelper = new DatabaseHelper();
     }
 
     public void issueBook(int memberId, int bookId, Date issueDate, Date dueDate) {
         String sql = """
-                INSERT INTO Transactions(member_id, book_id, issue_date, due_date)
-                VALUES(?, ?, ?, ?)
+                INSERT INTO Transactions (member_id, book_id, issue_date, due_date)
+                VALUES (?, ?, ?, ?)
                 """;
         try (Connection conn = dbHelper.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -56,11 +56,19 @@ public class TransactionDAO {
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                System.out.println("Transaction ID: " + rs.getInt("id"));
+                System.out.println("\nTransaction ID: " + rs.getInt("id"));
                 System.out.println("Member ID: " + rs.getInt("member_id"));
                 System.out.println("Book ID: " + rs.getInt("book_id"));
-                System.out.println("Issue Date: " + rs.getDate("issue_date"));
-                System.out.println("Due Date: " + rs.getDate("due_date"));
+
+                long issueTimestamp = rs.getLong("issue_date");
+                java.util.Date utilIssueDate = new java.util.Date(issueTimestamp);
+                Date sqlIssueDate = new Date(utilIssueDate.getTime());
+                System.out.println("Issue Date: " + sqlIssueDate);
+
+                long dueDateTimestamp = rs.getLong("due_date");
+                java.util.Date utilDueDate = new java.util.Date(dueDateTimestamp);
+                Date sqlDueDate = new Date(utilDueDate.getTime());
+                System.out.println("Due Date: " + sqlDueDate);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -37,21 +37,27 @@ public class DatabaseHelper {
     }
 
     private void createBooksTable() {
+        String dropBooksTable = "DROP TABLE IF EXISTS Books;";
+        executeUpdate(dropBooksTable, BOOKS_TABLE);
+
         String createBooksTable = """
-                CREATE TABLE IF NOT EXISTS Books (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    author TEXT NOT NULL,
-                    isbn TEXT NOT NULL,
-                    available_copies INTEGER NOT NULL
-                );
-                """;
+            CREATE TABLE Books (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                author TEXT NOT NULL,
+                isbn TEXT NOT NULL,
+                available_copies INTEGER NOT NULL
+            );
+            """;
         executeUpdate(createBooksTable, BOOKS_TABLE);
     }
 
     private void createMembersTable() {
+        String dropBooksTable = "DROP TABLE IF EXISTS Members;";
+        executeUpdate(dropBooksTable, BOOKS_TABLE);
+
         String createMembersTable = """
-                CREATE TABLE IF NOT EXISTS Members (
+                CREATE TABLE Members (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     email TEXT NOT NULL,
@@ -62,8 +68,11 @@ public class DatabaseHelper {
     }
 
     private void createTransactionsTable() {
+        String dropBooksTable = "DROP TABLE IF EXISTS Transactions;";
+        executeUpdate(dropBooksTable, BOOKS_TABLE);
+
         String createTransactionsTable = """
-                CREATE TABLE IF NOT EXISTS Transactions (
+                CREATE TABLE Transactions (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     book_id INTEGER NOT NULL,
                     member_id INTEGER NOT NULL,
